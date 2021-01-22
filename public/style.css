@@ -1,0 +1,28 @@
+.container {
+    position: relative;
+    margin: 0 auto;
+    margin-top: 4vh;
+    width: 800px;
+    height: 500px;
+    padding: 25px;
+    text-align: center;
+
+}
+
+#button-container {
+    position: relative;
+    top: 50px;
+    margin: 0 auto;
+    width: 300px;
+    height: 200px;
+    
+
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
+}
+
+.button {
+    margin: 15px;
+    font-size: large;
+}
