@@ -1,22 +1,35 @@
 
 // Figure out import
+let quizIndex = 0;
+let quizArray = getRandomQuizzes(2);
+let quiz = quizArray[quizIndex];
 
-let currentQuiz = getRandomQuizzes(1);
 let questionHeader = document.getElementById("question-header");
 let buttonContainer = document.getElementById("button-container");
 
-questionHeader.innerHTML = currentQuiz.question;
+render();
 
-for(let i = 0; i < currentQuiz.alternatives.length; i++) {
-    buttonContainer.innerHTML += `<button class="button" 
-    id="btn-${i}"
-    onclick="selectAnswer(${i})">
-    ${currentQuiz.alternatives[i]}
-    </button>`;
+function render() {
+    
+    buttonContainer.innerHTML = "";
+    questionHeader.innerHTML = quiz.question;
+    for (let i = 0; i < quiz.alternatives.length; i++) {
+      buttonContainer.innerHTML += `<button class="button" 
+        id="btn-${i}"
+        onclick="selectAnswer(${i})">
+        ${quiz.alternatives[i]}
+        </button>`;
+    }
+    
 }
 
-function selectAnswer(value) {
-    if(value === currentQuiz.correct) {
+function selectAnswer(value) {    
+    if(value === quiz.correct) {
+        if (quizIndex === quizArray.length - 1) {
+          endQuiz();
+          return;
+        }
+        
         newQuiz();
     } else {
         alert("Wrong!");
@@ -24,17 +37,14 @@ function selectAnswer(value) {
 }
 
 function newQuiz() {
-    currentQuiz = quizzes[Math.floor(Math.random() * quizzes.length)];
-    questionHeader.innerHTML = currentQuiz.question;
-    
-    buttonContainer.innerHTML = "";
-    for (let i = 0; i < currentQuiz.alternatives.length; i++) {
-        buttonContainer.innerHTML += `<button class="button" 
-        id="btn-${i}"
-        onclick="selectAnswer(${i})">
-        ${currentQuiz.alternatives[i]}
-        </button>`;
-    }
+    quizIndex++;
+    quiz = quizArray[quizIndex];
+    render();
+}
+
+function endQuiz() {
+    console.log("End");
+    alert("End");
 }
 
 

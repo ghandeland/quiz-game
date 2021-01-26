@@ -7,11 +7,13 @@ function getRandomQuizzes(numberOfQuizzes) {
     }
     
     for(let i = 0; i < numberOfQuizzes; i++) {
-        const randomIndex = Math.floor(Math.random() * quizIndexes.length);
-        randomQuizzes.push(quizzes[quizIndexes[randomIndex]]);
-        quizIndexes.splice(randomIndex);
+      let randomIndex = Math.floor(Math.random() * quizIndexes.length);
+      console.log(randomIndex);
+      randomQuizzes.push(quizzes[quizIndexes[randomIndex]]);
+      quizIndexes.splice(randomIndex, 1);
     }
     
+    console.log(randomQuizzes);
     return randomQuizzes;
 }
 
