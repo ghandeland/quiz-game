@@ -1,4 +1,4 @@
-function getRandomQuizzes(numberOfQuizzes) {
+export function getRandomQuizzes(numberOfQuizzes) {
     let quizIndexes = [];
     const randomQuizzes = [];
     
@@ -8,12 +8,10 @@ function getRandomQuizzes(numberOfQuizzes) {
     
     for(let i = 0; i < numberOfQuizzes; i++) {
       let randomIndex = Math.floor(Math.random() * quizIndexes.length);
-      console.log(randomIndex);
       randomQuizzes.push(quizzes[quizIndexes[randomIndex]]);
       quizIndexes.splice(randomIndex, 1);
     }
-    
-    console.log(randomQuizzes);
+
     return randomQuizzes;
 }
 
