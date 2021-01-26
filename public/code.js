@@ -1,9 +1,12 @@
 
-let currentQuiz = quizzes[Math.floor(Math.random() * quizzes.length)];
+// Figure out import
+
+let currentQuiz = getRandomQuizzes(1);
 let questionHeader = document.getElementById("question-header");
 let buttonContainer = document.getElementById("button-container");
 
 questionHeader.innerHTML = currentQuiz.question;
+
 for(let i = 0; i < currentQuiz.alternatives.length; i++) {
     buttonContainer.innerHTML += `<button class="button" 
     id="btn-${i}"

@@ -1,8 +1,6 @@
-
-
 function getRandomQuizzes(numberOfQuizzes) {
-    let quizIndexes;
-    const randomQuizzes;
+    let quizIndexes = [];
+    const randomQuizzes = [];
     
     for(let i = 0; i < quizzes.length; i++) {
         quizIndexes[i] = i;
