@@ -1,4 +1,8 @@
 export function getRandomQuizzes(numberOfQuizzes) {
+    if(numberOfQuizzes < 1 || numberOfQuizzes > quizzes.length) {
+      throw "Index out of bounds";
+    }
+  
     let quizIndexes = [];
     const randomQuizzes = [];
     
