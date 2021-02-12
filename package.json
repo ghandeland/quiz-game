@@ -6,9 +6,9 @@
   "author": "ghandeland",
   "license": "MIT",
   "scripts": {
-    "build": "webpack --mode production",
-    "dev": "webpack serve --open --mode development",
-    "test": "jest --coverage"
+      "build": "webpack --mode production",
+      "dev": "webpack serve --open --mode development",
+      "test": "jest --coverage"
   },
   "dependencies": {
     "react": "16.12.0",
@@ -22,7 +22,11 @@
     "@babel/preset-react": "7.12.10",
     "babel-jest": "24.9.0",
     "babel-loader": "8.2.2",
+    "enzyme": "3.11.0",
+    "enzyme-adapter-react-16": "1.15.5",
     "jest": "24.9.0",
+    "jsdom": "16.4.0",
+    "react-addons-test-utils": "15.6.2",
     "webpack": "5.11.1",
     "webpack-cli": "4.5.0",
     "webpack-dev-server": "3.11.1"
@@ -33,6 +37,9 @@
   "jest": {
     "collectCoverageFrom": [
       "src/**/*.(js|jsx)"
+    ],
+    "setupFilesAfterEnv": [
+      "<rootDir>/tests/jest-setup.js"
     ],
     "testRegex": "tests/.*-test\\.(js|jsx)$"
   },
