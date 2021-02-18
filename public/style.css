@@ -26,3 +26,8 @@
     margin: 15px;
     font-size: large;
 }
+
+.quiz-container {
+    align-content: center;
+    text-align: center;
+}
