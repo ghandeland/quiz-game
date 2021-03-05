@@ -7,7 +7,7 @@ import { NotFound } from "./not_found"
 
 class App extends React.Component {
   
-
+  // TODO: Fix 404
   render() {
     return (
       <BrowserRouter>
