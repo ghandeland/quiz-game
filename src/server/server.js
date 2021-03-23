@@ -1,15 +1,15 @@
 const express = require('express');
-const bodyParser = require('body-parser');
-const path = require('path');
 const app = express()
+const path = require('path');
 
-app.use(express.static('public'));
+
+app.use(express.static(path.resolve(__dirname, "..", "..", "dist")));
 
 app.use((req, res, next) => {
-    res.sendFile(path.resolve(__dirname, "..", "..", "public", "index.html"));
+    res.sendFile(path.resolve(__dirname, "..", "..", "dist", "index.html"));
 });
 
-const port = process.env.port || 8080;
+const port = process.env.port || 3000;
 
 app.listen(port, () => {
     console.log("Started server on port " + port);

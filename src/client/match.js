@@ -3,14 +3,17 @@ import { getRandomQuizzes, fetchQuizzes } from "./quizzes";
 
 export function Match(props) {
   const n = 3;
-
+  
   // TODO: Extract state into "match" object
   const [matchIsOver, setMatch] = useState();
-  const [quizzes, setQuizzes] = useState();
   const [qN, setQuizNumber] = useState(0);
   const [correctCounter, setCorrectCount] = useState(0);
+  const [quizzes, setQuizzes] = useState();
 
-
+  // useEffect(() => {
+  //   await setQuizzes(fetchQuizzes());  
+  // }, [])
+  
   function startNewMatch() {
     setMatch(false);
     setQuizzes(getRandomQuizzes(3));
