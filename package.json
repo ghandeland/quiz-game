@@ -6,62 +6,35 @@
   "author": "ghandeland",
   "license": "MIT",
   "scripts": {
-    "build": "webpack --mode production",
-    "dev": "webpack serve --open --mode development",
-    "start": "node src/server/server.js",
+    "start": "concurrently \"npm run server\" \"npm run parcel\" " ,
+    "server": "nodemon --watch src/server src/server/server.js",
+    "parcel": "parcel watch src/client/index.html",
     "test": "jest --coverage"
   },
   "dependencies": {
-    "express": "4.17.1",
-    "react": "16.12.0",
-    "react-dom": "16.12.0",
-    "react-router": "5.2.0",
-    "react-router-dom": "5.2.0"
+    "express": "^4.17.1",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-router": "^5.2.0",
+    "react-router-dom": "^5.2.0"
   },
   "devDependencies": {
-    "@babel/cli": "7.12.10",
-    "@babel/core": "7.12.10",
-    "@babel/plugin-proposal-class-properties": "7.12.1",
-    "@babel/preset-env": "7.12.11",
-    "@babel/preset-react": "7.12.10",
-    "babel-jest": "24.9.0",
+    "@babel/core": "^7.13.10",
+    "@babel/preset-env": "^7.13.10",
+    "@babel/preset-react": "^7.12.13",
+    "babel-jest": "^26.6.3",
     "babel-loader": "8.2.2",
-    "enzyme": "3.11.0",
-    "enzyme-adapter-react-16": "1.15.5",
-    "jest": "24.9.0",
-    "jsdom": "16.4.0",
-    "react-addons-test-utils": "15.6.2",
-    "webpack": "5.11.1",
-    "webpack-cli": "4.3.1",
-    "webpack-dev-server": "3.11.1"
-  },
-  "engines": {
-    "node": "^14.0.0"
+    "concurrently": "^6.0.0",
+    "jest": "^26.6.3",
+    "nodemon": "^2.0.7",
+    "parcel": "^1.12.3"
   },
   "jest": {
-    "collectCoverageFrom": [
-      "src/**/*.(js|jsx)"
-    ],
-    "setupFilesAfterEnv": [
-      "<rootDir>/tests/jest-setup.js"
-    ],
-    "testEnvironment": "node",
-    "testRegex": "tests/.*-test\\.(js|jsx)$"
+   "transform": {
+      "\\.jsx": "babel-jest"
+    }
   },
   "babel": {
-    "plugins": [
-      "@babel/plugin-proposal-class-properties"
-    ],
-    "presets": [
-      [
-        "@babel/env",
-        {
-          "targets": {
-            "node": "current"
-          }
-        }
-      ],
-      "@babel/react"
-    ]
+    "presets": ["@babel/preset-env", "@babel/preset-react"]
   }
 }
