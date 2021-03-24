@@ -1,19 +1,21 @@
 import React, { useState, useEffect } from "react";
-import { getRandomQuizzes, fetchQuizzes } from "./quizzes";
+import { useLoading2 } from './utlis/useLoading2';
+import { fetchJson } from './utlis/http'
 
 export function Match(props) {
-  const n = 3;
+
   
-  // TODO: Extract state into "match" object
+  // TODO: Extract state into "match" object  
+  const { loading, error, data } = useLoading2(() => fetchJson("/api/quiz"));
+  
+  console.log(data);
+  
   const [matchIsOver, setMatch] = useState();
   const [qN, setQuizNumber] = useState(0);
   const [correctCounter, setCorrectCount] = useState(0);
   const [quizzes, setQuizzes] = useState();
 
-  // useEffect(() => {
-  //   await setQuizzes(fetchQuizzes());  
-  // }, [])
-  
+
   function startNewMatch() {
     setMatch(false);
     setQuizzes(getRandomQuizzes(3));
