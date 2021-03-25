@@ -1,24 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter, Switch, Route} from 'react-router-dom'
+import { BrowserRouter, Switch, Route } from "react-router-dom";
 import { Match } from "./match";
-import { Home } from "./home"
-import { NotFound } from "./not_found"
+import { Home } from "./home";
+import { NotFound } from "./not_found";
 
-class App extends React.Component {
-  
+const App = () => {
+  const [quizAmount, setQuizAmount] = useState(4);
+
   // TODO: Fix 404
-  render() {
-    return (
-      <BrowserRouter>
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route exact path="/match" component={Match} />
-          <Route component={NotFound} />
-        </Switch>
-      </BrowserRouter>
-    );
-  }
+  return (
+    <BrowserRouter>
+      <Switch>
+        <Route exact path="/">
+          <Home amount={quizAmount} onVChange={setQuizAmount} />
+        </Route>
+        <Route exact path="/match">
+          <Match amount={quizAmount} />
+        </Route>
+        <Route component={NotFound} />
+      </Switch>
+    </BrowserRouter>
+  );
 }
 
 ReactDOM.render(<App />, document.getElementById("root"));

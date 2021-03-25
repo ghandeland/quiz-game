@@ -4,8 +4,8 @@ import { fetchJson } from "./utlis/http";
 import { shuffle } from "lodash";
 import AnswerButton from "./AnswerButton";
 
-export function Match(props) {
-  const { loading, error, data } = useLoading(() => fetchJson("/api/quiz"));
+export function Match({amount}) {
+  const { loading, error, data } = useLoading(() => fetchJson("/api/quiz/start/" + amount));
 
   const [match, setMatch] = useState({
     quizIndex: 0,

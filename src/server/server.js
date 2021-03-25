@@ -3,8 +3,8 @@ const app = express();
 const path = require("path");
 const { getRandomQuizzes } = require("./quiz");
 
-app.get("/api/quiz", (req, res) => {
-  res.json(getRandomQuizzes(4));
+app.get("/api/quiz/start/:amount", (req, res) => {
+  res.json(getRandomQuizzes(req.params.amount));
 });
 
 // Set up static folder
