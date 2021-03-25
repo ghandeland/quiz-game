@@ -9,6 +9,10 @@
 
 }
 
+h1 {
+    color: red;
+}
+
 #button-container {
     position: relative;
     top: 50px;

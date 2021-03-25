@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 
 export function useLoading(loadingFunction) {
+    
     const [loading, setLoading] = useState(true);
-  const [error, setError] = useState();
-  const [data, setData] = useState();
+    const [error, setError] = useState();
+    const [data, setData] = useState();
     
     async function reload() {
         setLoading(true);
@@ -13,12 +14,12 @@ export function useLoading(loadingFunction) {
         try {
             setData(await loadingFunction());
         } catch(e) {
-            setData(e);
+            setError(e);
         } finally {
             setLoading(false);
         }
     }
     
-    useEffect(reload, []);
+    useEffect(reload, []);    
     return {loading, error, data};
 }
