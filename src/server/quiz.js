@@ -1,3 +1,5 @@
+const _ = require("lodash");
+
 const quizzes = [
   {
     question: "Which of these is an African country?",
@@ -17,9 +19,47 @@ const quizzes = [
     correct: "33",
     id: 2,
   },
+  {
+    question: "How many colors are there in a rainbow?",
+    alternatives: ["6", "9", "11"],
+    correct: "7",
+    id: 3,
+  },
+  {
+    question: "Which of these colours is NOT featured in the logo for Google?",
+    alternatives: ["Yellow", "Blue", "Green"],
+    correct: "Orange",
+    id: 4,
+  },
+  {
+    question:
+      "What is the name of the three headed dog in Harry Potter and the Sorcerers Stone?",
+    alternatives: ["Spikey", "Poofy", "Spot"],
+    correct: "Fluffy",
+    id: 5,
+  },
 ];
 
-module.exports = quizzes;
+const getRandomQuizzes = (n) => {
+  if (n < 1 || n > quizzes.length) {
+    throw "Index out of bounds";
+  }
+
+  let indexes = new Array(quizzes.length).fill(0).map((_, i) => i);
+  const randQuizzes = [];
+  console.log("Indexes length: " + indexes.length);
+
+  while (randQuizzes.length < n) {
+    let randIndex = _.random(indexes.length - 1);
+    randQuizzes.push(quizzes[indexes[randIndex]]);
+    indexes.splice(randIndex, 1);
+  }
+  console.log(randQuizzes);
+  return randQuizzes;
+};
+
+exports.quizzes = quizzes;
+exports.getRandomQuizzes = getRandomQuizzes;
 
 // export async function fetchQuizzes(amount) {
 //   let response;
@@ -48,29 +88,8 @@ module.exports = quizzes;
 //       nquizzes[i].answers = allAnswers.sort(() => Math.random() - 0.5);
 //     }
 //   }
-  
+
 //   console.log(nquizzes);
-  
+
 //   return nquizzes;
-// }
-
-// export function getRandomQuizzes(numberOfQuizzes) {
-//   if (numberOfQuizzes < 1 || numberOfQuizzes > quizzes.length) {
-//     throw "Index out of bounds";
-//   }
-
-//   let quizIndexes = [];
-//   const randomQuizzes = [];
-
-//   for (let i = 0; i < quizzes.length; i++) {
-//     quizIndexes[i] = i;
-//   }
-
-//   for (let i = 0; i < numberOfQuizzes; i++) {
-//     let randomIndex = Math.floor(Math.random() * quizIndexes.length);
-//     randomQuizzes.push(quizzes[quizIndexes[randomIndex]]);
-//     quizIndexes.splice(randomIndex, 1);
-//   }
-
-//   return randomQuizzes;
 // }
