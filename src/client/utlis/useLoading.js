@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 
-export function useLoading(loadingFunction) {
+export function useLoading(loadingFunction, trigger) {
     
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState();
     const [data, setData] = useState();
+    const [refetchToggle, refetch] = useState({});
     
     async function reload() {
         setLoading(true);
@@ -20,6 +21,6 @@ export function useLoading(loadingFunction) {
         }
     }
     
-    useEffect(reload, []);    
-    return {loading, error, data};
+    useEffect(reload, [refetchToggle]);    
+    return {loading, error, data, refetch};
 }

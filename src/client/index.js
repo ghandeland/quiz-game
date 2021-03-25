@@ -16,7 +16,7 @@ const App = () => {
           <Home amount={quizAmount} onVChange={setQuizAmount} />
         </Route>
         <Route exact path="/match">
-          <Match amount={quizAmount} />
+          <Match amount={quizAmount} onVChange={setQuizAmount} />
         </Route>
         <Route component={NotFound} />
       </Switch>

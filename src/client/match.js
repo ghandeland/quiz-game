@@ -3,10 +3,12 @@ import { useLoading } from "./utlis/useLoading";
 import { fetchJson } from "./utlis/http";
 import { shuffle } from "lodash";
 import AnswerButton from "./AnswerButton";
+import InputField from './InputField'
 
-export function Match({amount}) {
-  const { loading, error, data } = useLoading(() => fetchJson("/api/quiz/start/" + amount));
-
+export function Match({amount, onVChange}) {
+  // {loading, error, data, refetch}
+  let fetchObj = useLoading(() => fetchJson("/api/quiz/start/" + amount));
+  
   const [match, setMatch] = useState({
     quizIndex: 0,
     correctCount: 0,
@@ -14,46 +16,52 @@ export function Match({amount}) {
   });
   const [quizzes, setQuizzes] = useState(undefined);
   const [currentQuiz, setCurrentQuiz] = useState();
-
+  
+  
   useEffect(() => {
-    setQuizzes(data);
-    if (data) {
+    setQuizzes(fetchObj.data);
+    if (fetchObj.data && match.quizIndex < amount) {
       shuffleAnswers();
     }
-  }, [data, match.quizIndex]);
+  }, [fetchObj.data, match.quizIndex]);
   
-  
+  // Extract all alternatives from fetched data object and shuffle
   function shuffleAnswers() {
-    console.log(match.quizIndex);
     let shuffledQuizzes = shuffle([
-      ...data[match.quizIndex].alternatives,
-      data[match.quizIndex].correct,
+      ...fetchObj.data[match.quizIndex].alternatives,
+      fetchObj.data[match.quizIndex].correct,
     ]);
     setCurrentQuiz(shuffledQuizzes);
   }
 
   function startNewMatch() {
+    // Fetch new quizzes
+    fetchObj.refetch({});
+
+    // Reset match state
     setMatch({
       quizIndex: 0,
       correctCount: 0,
       matchIsOver: false,
     });
-    // Fetch new quizzes
   }
 
   function checkAnswer(answer) {
+    // Check if answer is correct
     if (answer === quizzes[match.quizIndex].correct) {
       setMatch(prevState => {
       return { ...prevState, correctCount: prevState.correctCount + 1 }
       });
     }
     
-    // TODO: Logic for ending quiz
-    // if (match.quizIndex >= (quizzes.length - 1)) {
-    //   endMatch();
-    //   return;
-    // }
+    // End match
+    if (match.quizIndex >= (quizzes.length - 1)) {
+      setMatch((prevState) => {
+        return { ...prevState, matchIsOver: true }
+      });
+    }
 
+    // Increase quizIndex in state
     setMatch(prevState => {
       return { ...prevState, quizIndex: prevState.quizIndex + 1 }
     });
@@ -61,18 +69,23 @@ export function Match({amount}) {
     shuffleAnswers();
   }
 
-  function endMatch() {
-    setMatch(true);
-  }
-
-  if (loading || !data) {
+  if (fetchObj.loading || !fetchObj.data) {
     return <h1>Loding...</h1>;
   }
 
   if (match.matchIsOver) {
     return (
       <>
-        <h1>Match is over! You got TODO / 3 correct answers!</h1>
+        <h1>
+          Match is over! You got {match.correctCount} / {quizzes.length} correct
+          answers!
+        </h1>
+        <InputField
+          label="Number of quizzes"
+          type="number"
+          value={amount}
+          onValueChange={onVChange}
+        />
         <button onClick={startNewMatch}>Start new match!</button>
       </>
     );
