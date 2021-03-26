@@ -64,6 +64,19 @@ const quizzes = [
   },
 ];
 
+const solutions = {
+  0: 2,
+  1: 3,
+  2: 0,
+  3: 1,
+  4: 3,
+  5: 2,
+};
+
+const checkAnswer = (qId, aId) => {
+  return solutions[qId] === aId;
+}
+
 const getRandomQuizzes = (n) => {
   if (n < 1 || n > quizzes.length) {
     throw "Index out of bounds";
@@ -71,8 +84,7 @@ const getRandomQuizzes = (n) => {
 
   let indexes = new Array(quizzes.length).fill(0).map((_, i) => i);
   const randQuizzes = [];
-  console.log("Indexes length: " + indexes.length);
-
+  
   while (randQuizzes.length < n) {
     let randIndex = _.random(indexes.length - 1);
     randQuizzes.push(quizzes[indexes[randIndex]]);
@@ -86,6 +98,12 @@ const getRandomQuizzes = (n) => {
 
 exports.quizzes = quizzes;
 exports.getRandomQuizzes = getRandomQuizzes;
+exports.checkAnswer = checkAnswer;
+
+
+
+
+
 
 // export async function fetchQuizzes(amount) {
 //   let response;

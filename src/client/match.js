@@ -1,38 +1,29 @@
 import React, { useState, useEffect } from "react";
 import { useLoading } from "./utlis/useLoading";
-import { fetchJson } from "./utlis/http";
-import { shuffle } from "lodash";
+import { fetchJson, postJson } from "./utlis/http";
 import AnswerButton from "./AnswerButton";
-import InputField from './InputField'
+import InputField from "./InputField";
 
-export function Match({amount, onVChange}) {
+export function Match({ amount, onVChange }) {
   // {loading, error, data, refetch}
   let fetchObj = useLoading(() => fetchJson("/api/quiz/start/" + amount));
-  
+
   const [match, setMatch] = useState({
     quizIndex: 0,
     correctCount: 0,
-    matchIsOver: false
+    matchIsOver: false,
   });
+  const [answers, setAnswers] = useState([]);
   const [quizzes, setQuizzes] = useState(undefined);
-  const [currentQuiz, setCurrentQuiz] = useState();
-  
-  
+
+  // When data object is fetched/refetched, insert it into state
   useEffect(() => {
     setQuizzes(fetchObj.data);
-    if (fetchObj.data && match.quizIndex < amount) {
-      shuffleAnswers();
-    }
-  }, [fetchObj.data, match.quizIndex]);
-  
-  // Extract all alternatives from fetched data object and shuffle
-  function shuffleAnswers() {
-    let shuffledQuizzes = shuffle([
-      ...fetchObj.data[match.quizIndex].alternatives,
-      fetchObj.data[match.quizIndex].correct,
-    ]);
-    setCurrentQuiz(shuffledQuizzes);
-  }
+  }, [fetchObj.data]);
+
+  // useEffect(() => {
+  //   logAnswerCache();
+  // }, [answers]);
 
   function startNewMatch() {
     // Fetch new quizzes
@@ -46,31 +37,32 @@ export function Match({amount, onVChange}) {
     });
   }
 
-  function checkAnswer(answer) {
-    // Check if answer is correct
-    if (answer === quizzes[match.quizIndex].correct) {
-      setMatch(prevState => {
-      return { ...prevState, correctCount: prevState.correctCount + 1 }
-      });
-    }
+  const endMatch = () => {
     
+    setMatch((prevState) => {
+      return { ...prevState, matchIsOver: true };
+    });
+  };
+
+  function cacheAnswer(questionId, answerId) {
+    let postOK = postJson("/api/quiz/answer", {
+      qId: questionId,
+      aId: answerId,
+    });
+
     // End match
-    if (match.quizIndex >= (quizzes.length - 1)) {
-      setMatch((prevState) => {
-        return { ...prevState, matchIsOver: true }
-      });
+    if (match.quizIndex >= quizzes.length - 1) {
+      endMatch();
     }
 
     // Increase quizIndex in state
-    setMatch(prevState => {
-      return { ...prevState, quizIndex: prevState.quizIndex + 1 }
+    setMatch((prevState) => {
+      return { ...prevState, quizIndex: prevState.quizIndex + 1 };
     });
-    
-    shuffleAnswers();
   }
 
   if (fetchObj.loading || !fetchObj.data) {
-    return <h1>Loding...</h1>;
+    return <h1>Lodaing...</h1>;
   }
 
   if (match.matchIsOver) {
@@ -96,8 +88,14 @@ export function Match({amount, onVChange}) {
       <h1 className="question">{quizzes[match.quizIndex].question}</h1>
       <h3>{match.quizIndex + 1 + " / " + quizzes.length}</h3>
       <div id="button-container">
-        {currentQuiz.map((a, i) => (
-          <AnswerButton key={i} onclickFunc={() => checkAnswer(a)} answer={a} />
+        {quizzes[match.quizIndex].alternatives.map((alt, i) => (
+          <AnswerButton
+            key={i}
+            onclickFunc={() =>
+              cacheAnswer(quizzes[match.quizIndex].qId, alt.aId)
+            }
+            answer={alt.answer}
+          />
         ))}
         <div>quizIndex: {match.quizIndex}</div>
         <div>correctCount: {match.correctCount}</div>

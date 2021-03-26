@@ -1,8 +1,8 @@
 import React from 'react'
 
-const AnswerButton = ({ onclickFunc, answer }) => {
+const AnswerButton = ({ onclickFunc, answer, val }) => {
     return (
-        <button className="button" onClick={onclickFunc}>
+        <button className="button" onClick={onclickFunc} value="val">
         {answer}
         </button>
     );
