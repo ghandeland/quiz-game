@@ -3,40 +3,64 @@ const _ = require("lodash");
 const quizzes = [
   {
     question: "Which of these is an African country?",
-    alternatives: ["Bolivia", "Myanmar", "Curiba"],
-    correct: "Mozambique",
-    id: 0,
+    alternatives: [
+      { answer: "Bolivia", aId: 0 },
+      { answer: "Myanmar", aId: 1 },
+      { answer: "Mozambique", aId: 2 },
+      { answer: "Curiba", aId: 3 },
+    ],
+    qId: 0,
   },
   {
     question: "How many centilitres in a litre?",
-    alternatives: ["100", "10", "10000"],
-    correct: "1000",
-    id: 1,
+    alternatives: [
+      { answer: "100", aId: 0 },
+      { answer: "10", aId: 1 },
+      { answer: "10000", aId: 2 },
+      { answer: "1000", aId: 3 },
+    ],
+    qId: 1,
   },
   {
     question: "3x - 7 = 92 // What is x?",
-    alternatives: ["14", "30", "41"],
-    correct: "33",
-    id: 2,
+    alternatives: [
+      { answer: "33", aId: 0 },
+      { answer: "14", aId: 1 },
+      { answer: "30", aId: 2 },
+      { answer: "41", aId: 3 },
+    ],
+    qId: 2,
   },
   {
     question: "How many colors are there in a rainbow?",
-    alternatives: ["6", "9", "11"],
-    correct: "7",
-    id: 3,
+    alternatives: [
+      { answer: "6", aId: 0 },
+      { answer: "7", aId: 1 },
+      { answer: "9", aId: 2 },
+      { answer: "11", aId: 3 },
+    ],
+    qId: 3,
   },
   {
     question: "Which of these colours is NOT featured in the logo for Google?",
-    alternatives: ["Yellow", "Blue", "Green"],
-    correct: "Orange",
-    id: 4,
+    alternatives: [
+      { answer: "Yellow", aId: 0 },
+      { answer: "Blue", aId: 1 },
+      { answer: "Green", aId: 2 },
+      { answer: "Orange", aId: 3 },
+    ],
+    qId: 4,
   },
   {
     question:
       "What is the name of the three headed dog in Harry Potter and the Sorcerers Stone?",
-    alternatives: ["Spikey", "Poofy", "Spot"],
-    correct: "Fluffy",
-    id: 5,
+    alternatives: [
+      { answer: "Fluffy", aId: 0 },
+      { answer: "Spoofy", aId: 1 },
+      { answer: "Spotty", aId: 2 },
+      { answer: "Poofy", aId: 3 },
+    ],
+    qId: 5,
   },
 ];
 
@@ -54,6 +78,8 @@ const getRandomQuizzes = (n) => {
     randQuizzes.push(quizzes[indexes[randIndex]]);
     indexes.splice(randIndex, 1);
   }
+  
+  // TODO: Shuffle quizzes before serving
   console.log(randQuizzes);
   return randQuizzes;
 };
