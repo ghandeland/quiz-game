@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import InputField from "./InputField";
+import InputField from "./ui/InputField";
 
 
 export function Home({ amount, onVChange }) {

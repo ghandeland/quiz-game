@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useLoading } from "./utlis/useLoading";
 import { fetchJson, postJson } from "./utlis/http";
-import AnswerButton from "./AnswerButton";
-import InputField from "./InputField";
+import AnswerButton from "./ui/AnswerButton";
+import InputField from "./ui/InputField";
 
 export function Match({ amount, onVChange }) {
   
@@ -118,9 +118,6 @@ export function Match({ amount, onVChange }) {
             answer={alt.answer}
           />
         ))}
-        <div>quizIndex: {match.quizIndex}</div>
-        <div>matchIsOver: {match.matchIsOver}</div>
-        <div>quizzes.length: {quizzes.length}</div>
       </div>
     </div>
   );

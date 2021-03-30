@@ -6,7 +6,7 @@
     height: 500px;
     padding: 25px;
     text-align: center;
-
+    border: 3px solid blue;
 }
 
 h1 {
@@ -26,7 +26,7 @@ h1 {
     grid-template-columns: 1fr 1fr;
 }
 
-.button {
+.button, button {
     margin: 15px;
     font-size: large;
 }
