@@ -70,7 +70,7 @@ const solutions = {
   2: 0,
   3: 1,
   4: 3,
-  5: 2,
+  5: 0,
 };
 
 const checkAnswer = (qId, aId) => {
@@ -81,7 +81,8 @@ const getRandomQuizzes = (n) => {
   if (n < 1 || n > quizzes.length) {
     throw "Index out of bounds";
   }
-
+  
+  //const quizzesCopy = quizzes.slice();
   let indexes = new Array(quizzes.length).fill(0).map((_, i) => i);
   const randQuizzes = [];
   
@@ -90,9 +91,8 @@ const getRandomQuizzes = (n) => {
     randQuizzes.push(quizzes[indexes[randIndex]]);
     indexes.splice(randIndex, 1);
   }
-  
+  console.log("randQuizzes.length: " + randQuizzes.length);
   // TODO: Shuffle quizzes before serving
-  console.log(randQuizzes);
   return randQuizzes;
 };
 

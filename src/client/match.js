@@ -1,47 +1,60 @@
 import React, { useState, useEffect } from "react";
-import { useLoading } from "./utlis/useLoading";
+import { useLoading, useLoadingEffect } from "./utlis/useLoading";
 import { fetchJson, postJson } from "./utlis/http";
 import AnswerButton from "./AnswerButton";
 import InputField from "./InputField";
 
 export function Match({ amount, onVChange }) {
-  // {loading, error, data, refetch}
-  let fetchObj = useLoading(() => fetchJson("/api/quiz/start/" + amount));
-
+  
+  /// Match data
   const [match, setMatch] = useState({
     quizIndex: 0,
-    correctCount: 0,
-    matchIsOver: false,
+    matchIsOver: false
   });
-  const [answers, setAnswers] = useState([]);
-  const [quizzes, setQuizzes] = useState(undefined);
+  
+  // Quiz data
+  const [quizzes, setQuizzes] = useState();
+  // Result data
+  const [quizResult, setQuizResult] = useState();
+  
+  // { loading, error, data, refetch }
+  let quizFetchObj = useLoadingEffect(() =>
+    fetchJson("/api/quiz/start/" + amount)
+  );
+  let resultFetchObj = useLoadingEffect(() =>
+    fetchJson("/api/quiz/result")
+  );
 
   // When data object is fetched/refetched, insert it into state
   useEffect(() => {
-    setQuizzes(fetchObj.data);
-  }, [fetchObj.data]);
+    if (quizFetchObj.data) {
+      setQuizzes(quizFetchObj.data);
+    }
+  }, [quizFetchObj.data]);
+  
+  useEffect(() => {
+    if(resultFetchObj.data) {
+      setQuizResult(resultFetchObj.data);
+    }
+  }, [resultFetchObj.data]);
 
-  // useEffect(() => {
-  //   logAnswerCache();
-  // }, [answers]);
-
-  function startNewMatch() {
-    // Fetch new quizzes
-    fetchObj.refetch({});
-
+  const startMatch = () => {
+    // Fetch new quiz-data
+    quizFetchObj.refetch({});
+    
     // Reset match state
     setMatch({
       quizIndex: 0,
-      correctCount: 0,
-      matchIsOver: false,
+      matchIsOver: false
     });
   }
-
+  
   const endMatch = () => {
-    
     setMatch((prevState) => {
       return { ...prevState, matchIsOver: true };
     });
+    // Fetch new result & new quizzes
+    resultFetchObj.refetch({});
   };
 
   function cacheAnswer(questionId, answerId) {
@@ -50,26 +63,34 @@ export function Match({ amount, onVChange }) {
       aId: answerId,
     });
 
-    // End match
     if (match.quizIndex >= quizzes.length - 1) {
       endMatch();
+    } else {
+      // Increase quizIndex in state
+      setMatch((prevState) => {
+        return { ...prevState, quizIndex: prevState.quizIndex + 1 };
+      });
     }
-
-    // Increase quizIndex in state
-    setMatch((prevState) => {
-      return { ...prevState, quizIndex: prevState.quizIndex + 1 };
-    });
   }
 
-  if (fetchObj.loading || !fetchObj.data) {
-    return <h1>Lodaing...</h1>;
+  if(resultFetchObj.error) {
+    return <h1>Fetch error</h1>;
+  }
+  
+  if (resultFetchObj.loading 
+    || typeof resultFetchObj.data === 'undefined') {
+    return <h1>Fetching quiz data...</h1>;
+  }
+  
+  if (quizFetchObj.loading || !quizFetchObj.data) {
+    return <h1>Fetching quiz data...</h1>;
   }
 
   if (match.matchIsOver) {
     return (
       <>
         <h1>
-          Match is over! You got {match.correctCount} / {quizzes.length} correct
+          Match is over! You got {quizResult} / {quizzes.length} correct
           answers!
         </h1>
         <InputField
@@ -78,7 +99,7 @@ export function Match({ amount, onVChange }) {
           value={amount}
           onValueChange={onVChange}
         />
-        <button onClick={startNewMatch}>Start new match!</button>
+        <button onClick={startMatch}>Start new match!</button>
       </>
     );
   }
@@ -98,7 +119,6 @@ export function Match({ amount, onVChange }) {
           />
         ))}
         <div>quizIndex: {match.quizIndex}</div>
-        <div>correctCount: {match.correctCount}</div>
         <div>matchIsOver: {match.matchIsOver}</div>
         <div>quizzes.length: {quizzes.length}</div>
       </div>

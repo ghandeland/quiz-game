@@ -1,13 +1,12 @@
 function checkResult(res) {
     if (!res.ok) {
-      res("fetch failed!");
+        alert("FETCH FAILED");
     }
 }
 // TODO: Implement checkresult (with erro message?)
 export async function fetchJson(url) {
     const result = await fetch(url);
-    checkResult(result);
-    
+    console.log(result.ok);
     return await result.json();
 }
 

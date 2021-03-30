@@ -3,17 +3,26 @@ const app = express();
 const path = require("path");
 const bodyParser = require("body-parser");
 const { getRandomQuizzes, checkAnswer, quizzes } = require("./quiz");
-
+app.use(bodyParser.json());
 let correctCount = 0;
 
-app.use(bodyParser.json());
+// ______________________________________________________
+let fetchValue = 0
+app.get("/api/test", (req, res) => {
+  let val = "Fetchd_" + fetchValue;
+  res.json( val );
+  fetchValue++;
+});
+// ______________________________________________________
 
 // Get quizzes with amount parameter
 app.get("/api/quiz/start/:amount", (req, res) => {
+  correctCount = 0;
   res.json(getRandomQuizzes(req.params.amount));
 });
 
 // Get quiz result
+
 app.get("/api/quiz/result", (req, res) => {
   res.json(correctCount);
 });
@@ -24,6 +33,7 @@ app.post("/api/quiz/answer", (req, res) => {
   if(checkAnswer(qId, aId)) {
     correctCount++;  
   }
+  res.end();
 });
 
 // Set up static folder

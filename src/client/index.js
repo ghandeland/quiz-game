@@ -4,9 +4,10 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 import { Match } from "./match";
 import { Home } from "./home";
 import { NotFound } from "./not_found";
+import TestFetch from "./TestFetch";
 
 const App = () => {
-  const [quizAmount, setQuizAmount] = useState(4);
+  const [quizAmount, setQuizAmount] = useState(2);
 
   // TODO: Fix 404
   return (
@@ -17,6 +18,9 @@ const App = () => {
         </Route>
         <Route exact path="/match">
           <Match amount={quizAmount} onVChange={setQuizAmount} />
+        </Route>
+        <Route exact path="/testfetchcomponent">
+          <TestFetch/>
         </Route>
         <Route component={NotFound} />
       </Switch>

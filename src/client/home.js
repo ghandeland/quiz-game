@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import InputField from "./InputField";
 
+
 export function Home({ amount, onVChange }) {
   
   
@@ -16,6 +17,9 @@ export function Home({ amount, onVChange }) {
       />
       <Link to="/match">
         <button type="button">Start game</button>
+      </Link>
+      <Link to="/testfetchcomponent">
+        <button type="button">Test fetch</button>
       </Link>
     </div>
   );
