@@ -1,5 +1,6 @@
 const _ = require("lodash");
 
+// Quiz data
 const quizzes = [
   {
     question: "Which of these is an African country?",
@@ -64,6 +65,7 @@ const quizzes = [
   },
 ];
 
+// Pairs of quiz IDs with ID of correct answer
 const solutions = {
   0: 2,
   1: 3,
@@ -73,26 +75,29 @@ const solutions = {
   5: 0,
 };
 
+// Check if answer is correct given a quiz ID and answer ID
 const checkAnswer = (qId, aId) => {
   return solutions[qId] === aId;
 }
 
+// Pick n random quizzes
 const getRandomQuizzes = (n) => {
   if (n < 1 || n > quizzes.length) {
     throw "Index out of bounds";
   }
   
-  //const quizzesCopy = quizzes.slice();
   let indexes = new Array(quizzes.length).fill(0).map((_, i) => i);
   const randQuizzes = [];
   
+  // Pick a random index and delete from indexes after picking quiz
   while (randQuizzes.length < n) {
-    let randIndex = _.random(indexes.length - 1);
-    randQuizzes.push(quizzes[indexes[randIndex]]);
+    const randIndex = _.random(indexes.length - 1);
+    const quiz = quizzes[indexes[randIndex]];
+    quiz.alternatives = _.shuffle(quiz.alternatives); // Shuffle answers
+    randQuizzes.push(quiz);
     indexes.splice(randIndex, 1);
   }
-  console.log("randQuizzes.length: " + randQuizzes.length);
-  // TODO: Shuffle quizzes before serving
+  
   return randQuizzes;
 };
 

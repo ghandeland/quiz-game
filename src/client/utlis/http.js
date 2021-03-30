@@ -6,7 +6,6 @@ function checkResult(res) {
 // TODO: Implement checkresult (with erro message?)
 export async function fetchJson(url) {
     const result = await fetch(url);
-    console.log(result.ok);
     return await result.json();
 }
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useLoading, useLoadingEffect } from "./utlis/useLoading";
+import { useLoading } from "./utlis/useLoading";
 import { fetchJson, postJson } from "./utlis/http";
 import AnswerButton from "./AnswerButton";
 import InputField from "./InputField";
@@ -18,10 +18,10 @@ export function Match({ amount, onVChange }) {
   const [quizResult, setQuizResult] = useState();
   
   // { loading, error, data, refetch }
-  let quizFetchObj = useLoadingEffect(() =>
+  let quizFetchObj = useLoading(() =>
     fetchJson("/api/quiz/start/" + amount)
   );
-  let resultFetchObj = useLoadingEffect(() =>
+  let resultFetchObj = useLoading(() =>
     fetchJson("/api/quiz/result")
   );
 
