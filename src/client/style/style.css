@@ -6,11 +6,19 @@
     height: 500px;
     padding: 25px;
     text-align: center;
-    border: 3px solid blue;
+    background-color: antiquewhite;
+    border: 2px dashed brown;
+}
+.btn-home-container {
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+    width: 100px;
+    height: 50px;
 }
 
 h1 {
-    color: red;
+    color: brown;
 }
 
 #button-container {

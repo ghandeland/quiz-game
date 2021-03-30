@@ -3,6 +3,7 @@ import { useLoading } from "./utlis/useLoading";
 import { fetchJson, postJson } from "./utlis/http";
 import AnswerButton from "./ui/AnswerButton";
 import InputField from "./ui/InputField";
+import { Link } from "react-router-dom";
 
 export function Match({ amount, onVChange }) {
   
@@ -118,6 +119,11 @@ export function Match({ amount, onVChange }) {
             answer={alt.answer}
           />
         ))}
+      </div>
+      <div className="btn-home-container">
+        <Link to="/">
+          <button>Home</button>
+        </Link>
       </div>
     </div>
   );

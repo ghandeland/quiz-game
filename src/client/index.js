@@ -1,13 +1,16 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { BrowserRouter, Switch, Route, useLocation } from "react-router-dom";
 import { Match } from "./match";
 import { Home } from "./home";
 import { NotFound } from "./ui/not_found";
 
 const App = () => {
   const [quizAmount, setQuizAmount] = useState(2);
-
+  const testUseLoc = () => {
+    console.log(window.location.href);
+  }
+  
   // TODO: Fix 404
   return (
     <div className="container">
