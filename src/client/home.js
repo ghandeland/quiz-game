@@ -18,9 +18,6 @@ export function Home({ amount, onVChange }) {
       <Link to="/match">
         <button type="button">Start game</button>
       </Link>
-      <Link to="/testfetchcomponent">
-        <button type="button">Test fetch</button>
-      </Link>
     </div>
   );
 }

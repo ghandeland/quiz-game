@@ -6,14 +6,6 @@ const { getRandomQuizzes, checkAnswer, quizzes } = require("./quiz");
 app.use(bodyParser.json());
 let correctCount = 0;
 
-// ______________________________________________________
-let fetchValue = 0
-app.get("/api/test", (req, res) => {
-  let val = "Fetchd_" + fetchValue;
-  res.json( val );
-  fetchValue++;
-});
-// ______________________________________________________
 
 // Get quizzes with amount parameter
 app.get("/api/quiz/start/:amount", (req, res) => {
