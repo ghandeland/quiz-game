@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter, Switch, Route, useLocation } from "react-router-dom";
-import { Match } from "./match";
-import { Home } from "./home";
-import { Login } from "./login";
+import { Match } from "./Match";
+import { HomePage } from "./HomePage";
+import { LoginPage } from "./LoginPage";
 import { NotFound } from "./ui/not_found";
+import { ProfilePage } from "./ProfilePage";
 
 const App = () => {
   const [quizAmount, setQuizAmount] = useState(2);
@@ -18,13 +19,16 @@ const App = () => {
       <BrowserRouter>
         <Switch>
           <Route exact path="/">
-            <Home amount={quizAmount} onVChange={setQuizAmount} />
+            <HomePage amount={quizAmount} onVChange={setQuizAmount} />
           </Route>
           <Route exact path="/match">
             <Match amount={quizAmount} onVChange={setQuizAmount} />
           </Route>
           <Route exact path="/login">
-            <Login />
+            <LoginPage />
+          </Route>
+          <Route exact path="/profile">
+            <ProfilePage />
           </Route>
           <Route component={NotFound} />
         </Switch>

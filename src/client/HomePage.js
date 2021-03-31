@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import InputField from "./ui/InputField";
 
 
-export function Home({ amount, onVChange }) {
+export function HomePage({ amount, onVChange }) {
   
   
   return (
@@ -21,6 +21,11 @@ export function Home({ amount, onVChange }) {
       <div className="btn-login-container">
         <Link to="/login">
           <button type="button">Log in</button>
+        </Link>
+      </div>
+      <div className="btn-profile-container">
+        <Link to="/profile">
+          <button type="button">Profile</button>
         </Link>
       </div>
     </div>

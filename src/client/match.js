@@ -3,28 +3,23 @@ import { useLoading } from "./utlis/useLoading";
 import { fetchJson, postJson } from "./utlis/http";
 import AnswerButton from "./ui/AnswerButton";
 import InputField from "./ui/InputField";
-import HomeButton from './ui/HomeButton';
+import HomeButton from "./ui/HomeButton";
 
 export function Match({ amount, onVChange }) {
-  
   /// Match data
   const [match, setMatch] = useState({
     quizIndex: 0,
-    matchIsOver: false
+    matchIsOver: false,
   });
-  
+
   // Quiz data
   const [quizzes, setQuizzes] = useState();
   // Result data
   const [quizResult, setQuizResult] = useState();
-  
+
   // { loading, error, data, refetch }
-  let quizFetchObj = useLoading(() =>
-    fetchJson("/api/quiz/start/" + amount)
-  );
-  let resultFetchObj = useLoading(() =>
-    fetchJson("/api/quiz/result")
-  );
+  let quizFetchObj = useLoading(() => fetchJson("/api/quiz/start/" + amount));
+  let resultFetchObj = useLoading(() => fetchJson("/api/quiz/result"));
 
   // When data object is fetched/refetched, insert it into state
   useEffect(() => {
@@ -32,9 +27,9 @@ export function Match({ amount, onVChange }) {
       setQuizzes(quizFetchObj.data);
     }
   }, [quizFetchObj.data]);
-  
+
   useEffect(() => {
-    if(resultFetchObj.data) {
+    if (resultFetchObj.data) {
       setQuizResult(resultFetchObj.data);
     }
   }, [resultFetchObj.data]);
@@ -42,14 +37,14 @@ export function Match({ amount, onVChange }) {
   const startMatch = () => {
     // Fetch new quiz-data
     quizFetchObj.refetch({});
-    
+
     // Reset match state
     setMatch({
       quizIndex: 0,
-      matchIsOver: false
+      matchIsOver: false,
     });
-  }
-  
+  };
+
   const endMatch = () => {
     setMatch((prevState) => {
       return { ...prevState, matchIsOver: true };
@@ -74,15 +69,14 @@ export function Match({ amount, onVChange }) {
     }
   }
 
-  if(resultFetchObj.error) {
+  if (resultFetchObj.error) {
     return <h1>Fetch error</h1>;
   }
-  
-  if (resultFetchObj.loading 
-    || typeof resultFetchObj.data === 'undefined') {
+
+  if (resultFetchObj.loading || typeof resultFetchObj.data === "undefined") {
     return <h1>Fetching quiz data...</h1>;
   }
-  
+
   if (quizFetchObj.loading || !quizFetchObj.data) {
     return <h1>Fetching quiz data...</h1>;
   }
@@ -101,6 +95,7 @@ export function Match({ amount, onVChange }) {
           onValueChange={onVChange}
         />
         <button onClick={startMatch}>Start new match!</button>
+        <HomeButton />
       </>
     );
   }
@@ -120,7 +115,7 @@ export function Match({ amount, onVChange }) {
           />
         ))}
       </div>
-          <HomeButton />
+      <HomeButton />
     </div>
   );
 }

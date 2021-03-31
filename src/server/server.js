@@ -3,10 +3,20 @@ const app = express();
 const path = require("path");
 const bodyParser = require("body-parser");
 const session = require("express-session");
+const cookieParser = require("cookie-parser");
 const { getRandomQuizzes, checkAnswer, quizzes } = require("./quiz");
-app.use(bodyParser.json());
-let correctCount = 0;
+app.use(
+  session({
+    secret: "K54Ai7o7iuyQa3z",
+    resave: false,
+    saveUninitialized: false
+  })
+);
 
+app.use(bodyParser.json());
+app.use(cookieParser());
+
+let correctCount = 0;
 
 // Get quizzes with amount parameter
 app.get("/api/quiz/start/:amount", (req, res) => {
@@ -17,6 +27,16 @@ app.get("/api/quiz/start/:amount", (req, res) => {
 // Get quiz result
 app.get("/api/quiz/result", (req, res) => {
   res.json(correctCount);
+});
+
+// Get quiz result
+app.get("/api/profile", (req, res) => {
+  const { username } = req.session;
+  if(!username) {
+    console.log("nousername");
+    return res.status(401).send();
+  }
+  res.json({ username });
 });
 
 // Post answer and update correctCount if correct
@@ -30,8 +50,8 @@ app.post("/api/quiz/answer", (req, res) => {
 
 // Post login details
 app.post("/api/login", (req, res) => {  
-  const { username, password } = req.body;
-  
+  const { username } = req.body;
+  req.session.username = username;
   res.end();
 });
 
