@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const path = require("path");
 const bodyParser = require("body-parser");
+const session = require("express-session");
 const { getRandomQuizzes, checkAnswer, quizzes } = require("./quiz");
 app.use(bodyParser.json());
 let correctCount = 0;
@@ -14,7 +15,6 @@ app.get("/api/quiz/start/:amount", (req, res) => {
 });
 
 // Get quiz result
-
 app.get("/api/quiz/result", (req, res) => {
   res.json(correctCount);
 });
@@ -25,6 +25,13 @@ app.post("/api/quiz/answer", (req, res) => {
   if(checkAnswer(qId, aId)) {
     correctCount++;  
   }
+  res.end();
+});
+
+// Post login details
+app.post("/api/login", (req, res) => {  
+  const { username, password } = req.body;
+  
   res.end();
 });
 

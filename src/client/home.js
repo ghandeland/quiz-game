@@ -18,6 +18,11 @@ export function Home({ amount, onVChange }) {
       <Link to="/match">
         <button type="button">Start game</button>
       </Link>
+      <div className="btn-login-container">
+        <Link to="/login">
+          <button type="button">Log in</button>
+        </Link>
+      </div>
     </div>
   );
 }

@@ -2,7 +2,7 @@ import React from 'react'
 
 const InputField = ({type, label, value, onValueChange}) => {
     return (
-      <div>
+      <div className="input-field">
         <label>
             {label}:{" "}
           <input 

@@ -3,7 +3,7 @@ import { useLoading } from "./utlis/useLoading";
 import { fetchJson, postJson } from "./utlis/http";
 import AnswerButton from "./ui/AnswerButton";
 import InputField from "./ui/InputField";
-import { Link } from "react-router-dom";
+import HomeButton from './ui/HomeButton';
 
 export function Match({ amount, onVChange }) {
   
@@ -120,11 +120,7 @@ export function Match({ amount, onVChange }) {
           />
         ))}
       </div>
-      <div className="btn-home-container">
-        <Link to="/">
-          <button>Home</button>
-        </Link>
-      </div>
+          <HomeButton />
     </div>
   );
 }
