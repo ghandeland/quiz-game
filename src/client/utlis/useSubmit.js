@@ -11,12 +11,12 @@ export function useSubmit(submitFunction, onSubmitSuccess) {
         setError(undefined)
         try {
             await submitFunction();
+            setSubmitting(false);
             onSubmitSuccess();
         } catch(e) {
-            setError(e)
-        } finally {
+            setError(e);
             setSubmitting(false);
-        }
+        } 
     }
     
     return {handleSubmit, submitting, error};

@@ -24,6 +24,7 @@ export function Match({ amount, onVChange }) {
   // When data object is fetched/refetched, insert it into state
   useEffect(() => {
     if (quizFetchObj.data) {
+      // TODO: When 0 correct, no character is displayed
       setQuizzes(quizFetchObj.data);
     }
   }, [quizFetchObj.data]);

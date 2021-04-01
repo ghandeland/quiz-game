@@ -12,8 +12,9 @@ const useLoading = (loadingFunction) => {
         setError(false);
         
         try {
-          const loadingFunctData = await loadingFunction();
-          setData(loadingFunctData);
+            const loadingFunctData = await loadingFunction();
+            console.log(loadingFunctData);
+            setData(loadingFunctData);
         } catch(e) {
             console.log("Fetch failed: " + e);
             setError(true);

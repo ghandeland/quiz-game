@@ -30,9 +30,9 @@ app.get("/api/quiz/result", (req, res) => {
 });
 
 // Get quiz result
-app.get("/api/profile", (req, res) => {
+app.get("/api/profile", (req, res) => { 
   const { username } = req.session;
-  if(!username) {
+  if (!username) {
     console.log("nousername");
     return res.status(401).send();
   }
