@@ -6,6 +6,7 @@ import { HomePage } from "./HomePage";
 import { LoginPage } from "./LoginPage";
 import { NotFound } from "./ui/not_found";
 import { ProfilePage } from "./ProfilePage";
+import { TestPage } from "./TestPage";
 
 const App = () => {
   const [quizAmount, setQuizAmount] = useState(2);
@@ -29,6 +30,9 @@ const App = () => {
           </Route>
           <Route exact path="/profile">
             <ProfilePage />
+          </Route>
+          <Route exact path="/testpage">
+            <TestPage />
           </Route>
           <Route component={NotFound} />
         </Switch>

@@ -28,6 +28,11 @@ export function HomePage({ amount, onVChange }) {
           <button type="button">Profile</button>
         </Link>
       </div>
+      <div className="btn-profile-container">
+        <Link to="/testpage">
+          <button type="button">Test page</button>
+        </Link>
+      </div>
     </div>
   );
 }

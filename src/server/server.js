@@ -5,7 +5,8 @@ const bodyParser = require("body-parser");
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const { getRandomQuizzes, checkAnswer, quizzes } = require("./quiz");
-require("dotenv").config();
+const pool = require('./db/db');
+
 
 
 app.use(
@@ -29,7 +30,21 @@ app.get("/api/quiz/start/:amount", (req, res) => {
 
 // Get quiz result
 app.get("/api/quiz/result", (req, res) => {
+  console.log(correctCount);
   res.json(correctCount);
+});
+
+// Get quiz data from database
+app.get("/api/quiz/db", async (req, res) => {
+  
+  
+  try {
+    const quizzes = await pool.query("SELECT * FROM quiz");
+    console.log(quizzes);
+    res.json(quizzes);
+  } catch (error) {
+    console.error(error.message);
+  }
 });
 
 // Get quiz result

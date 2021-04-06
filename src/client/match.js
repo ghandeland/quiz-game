@@ -75,7 +75,7 @@ export function Match({ amount, onVChange }) {
   }
 
   if (resultFetchObj.loading || typeof resultFetchObj.data === "undefined") {
-    return <h1>Fetching quiz data...</h1>;
+    return <h1>Fetching results...</h1>;
   }
 
   if (quizFetchObj.loading || !quizFetchObj.data) {
