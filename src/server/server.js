@@ -5,6 +5,9 @@ const bodyParser = require("body-parser");
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const { getRandomQuizzes, checkAnswer, quizzes } = require("./quiz");
+require("dotenv").config();
+
+
 app.use(
   session({
     secret: "K54Ai7o7iuyQa3z",
