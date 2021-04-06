@@ -39,11 +39,13 @@ app.get("/api/quiz/db", async (req, res) => {
   
   
   try {
-    const quizzes = await pool.query("SELECT * FROM quiz");
-    console.log(quizzes);
-    res.json(quizzes);
+    const quiz = await pool.query("SELECT * FROM quiz");
+    const answer = await pool.query('SELECT * FROM answer');
+    const retObj = { quizzes: quiz.rows, answers: answer.rows };
+    res.json(retObj);
   } catch (error) {
     console.error(error.message);
+    return res.status(401).send();
   }
 });
 
