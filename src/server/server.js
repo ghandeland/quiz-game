@@ -1,10 +1,13 @@
 const express = require("express");
 const app = express();
 const path = require("path");
+const https = require('https');
+const fs = require('fs');
 const bodyParser = require("body-parser");
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const { getRandomQuizzes, checkAnswer, quizzes } = require("./quiz");
+
 app.use(
   session({
     secret: "K54Ai7o7iuyQa3z",
@@ -64,6 +67,27 @@ app.use((req, res, next) => {
 
 const port = process.env.port || 3000;
 
-app.listen(port, () => {
-  console.log("Started server on port " + port);
-});
+const server = https
+  .createServer(
+    {
+      key: fs.readFileSync("quizserver.key"),
+      cert: fs.readFileSync("quizserver.crt"),
+    },
+    app
+  )
+  .listen(3000, () => {
+    console.log("Started server on port " + port);
+  });
+
+// app.listen(port, () => {
+//   console.log('Server started on port ' + port);
+// })
+
+/* 
+Notes:
+Edit hosts-file:
+127.0.0.1       quizgame.pg6301.no
+
+Command to generate simple self-signed certificate with OpenSSL (terminal):
+openssl req -x509 -nodes -keyout quizserver.key -out quizserver.crt -subj "/CN=quizgame.pg6301.no" -addext "subjectAltName = DNS:quizgame.pg6301.no"
+*/
