@@ -1,12 +1,15 @@
 const express = require("express");
 const app = express();
 const path = require("path");
+require('dotenv');
 const https = require('https');
 const fs = require('fs');
 const bodyParser = require("body-parser");
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const { getRandomQuizzes, checkAnswer, quizzes } = require("./quiz");
+const passport = require("passport");
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
 
 app.use(
   session({
@@ -19,6 +22,41 @@ app.use(
 app.use(bodyParser.json());
 app.use(cookieParser());
 
+console.log(process.env.GOOGLE_CLIENT_ID);
+// Passport / Google / Oauth
+passport.use(
+  new GoogleStrategy({
+    clientID: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    callbackURL: '/api/oauth2callback'
+  },
+  (accessToken, refreshToken, profile, done) => {
+    console.log(profile);
+    done(null, { username: profile.emails[0].value });
+  }
+  )
+  );
+  
+  app.use(passport.initialize());
+  app.use(passport.session());
+  passport.serializeUser((user, done) => done(null, user));
+  passport.deserializeUser((id, done) => done(null, id));
+  
+  app.get("/api/profile", (req, res) => { 
+    if (!req.user) {
+      return res.status(401).send();
+    }
+    const { username } = req.user;
+    res.json({ username });
+  });
+  
+  app.post("/api/login", passport.authenticate('google'), (req, res) => {  
+    res.end();
+  });
+  
+  
+  
+  
 let correctCount = 0;
 
 // Get quizzes with amount parameter
@@ -33,14 +71,6 @@ app.get("/api/quiz/result", (req, res) => {
 });
 
 // Get quiz result
-app.get("/api/profile", (req, res) => { 
-  const { username } = req.session;
-  if (!username) {
-    console.log("nousername");
-    return res.status(401).send();
-  }
-  res.json({ username });
-});
 
 // Post answer and update correctCount if correct
 app.post("/api/quiz/answer", (req, res) => {  
@@ -51,12 +81,6 @@ app.post("/api/quiz/answer", (req, res) => {
   res.end();
 });
 
-// Post login details
-app.post("/api/login", (req, res) => {  
-  const { username } = req.body;
-  req.session.username = username;
-  res.end();
-});
 
 // Set up static folder
 app.use(express.static(path.resolve(__dirname, "..", "..", "dist")));

@@ -3,7 +3,7 @@ function checkResult(res) {
         alert("FETCH FAILED");
     }
 }
-// TODO: Implement checkresult (with erro message?)
+// TODO: Implement checkresult (with error message?)
 export async function fetchJson(url) {
     const result = await fetch(url);
     return await result.json();
