@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const path = require("path");
-require('dotenv');
+require('dotenv').config();
 const https = require('https');
 const fs = require('fs');
 const bodyParser = require("body-parser");
@@ -22,7 +22,6 @@ app.use(
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-console.log(process.env.GOOGLE_CLIENT_ID);
 // Passport / Google / Oauth
 passport.use(
   new GoogleStrategy({
@@ -54,6 +53,14 @@ passport.use(
     res.end();
   });
   
+  app.get(
+    "/api/login",
+    passport.authenticate("google", { scope: ["profile", "email"] })
+  );
+  
+  app.get("api/oauth2callback", passport.authenticate("google"), (req, res) => {
+    res.redirect('/');
+  });
   
   
   

@@ -19,9 +19,12 @@ export function HomePage({ amount, onVChange }) {
         <button type="button">Start game</button>
       </Link>
       <div className="btn-login-container">
-        <Link to="/login">
+        {/* <Link to="/login">
           <button type="button">Log in</button>
-        </Link>
+        </Link> */}
+        <a href={"/api/login"} target={"_self"}>
+          <button type="button">Log in</button>
+        </a>
       </div>
       <div className="btn-profile-container">
         <Link to="/profile">
