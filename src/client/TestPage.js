@@ -5,21 +5,23 @@ import { fetchJson } from './utlis/http';
 
 export const TestPage = () => {
     
-    let fetchObj = useLoading(() => fetchJson('/api/quiz/db'));
+    let fetchObj = useLoading(() => fetchJson('/api/quiz/db/5'));
  
     
     if(fetchObj.error) {
         return <div>Error</div>;
     }
     
-    if (fetchObj.loading) {
+    if (fetchObj.loading || !fetchObj.data) {
       return <div>Fetching...</div>;
     }
+    
+    const { quizzes, answers } = fetchObj.data;
     
     return (
         <div>
             <h1>Test fetch:</h1>
-            <div>{fetchObj.data}</div>
+            <div>{quizzes[0].question}</div>
         </div>
     );
 }

@@ -5,8 +5,7 @@ const bodyParser = require("body-parser");
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const { getRandomQuizzes, checkAnswer, quizzes } = require("./quiz");
-const pool = require('./db/db');
-
+const db = require('./db/db');
 
 
 app.use(
@@ -34,19 +33,12 @@ app.get("/api/quiz/result", (req, res) => {
   res.json(correctCount);
 });
 
+
 // Get quiz data from database
-app.get("/api/quiz/db", async (req, res) => {
-  
-  
-  try {
-    const quiz = await pool.query("SELECT * FROM quiz");
-    const answer = await pool.query('SELECT * FROM answer');
-    const retObj = { quizzes: quiz.rows, answers: answer.rows };
-    res.json(retObj);
-  } catch (error) {
-    console.error(error.message);
-    return res.status(401).send();
-  }
+app.get("/api/quiz/db/:amount", async (req, res) => {
+  const q = await db.getRandomQuizzes(3);
+  res.json(q);
+
 });
 
 // Get quiz result
@@ -56,6 +48,7 @@ app.get("/api/profile", (req, res) => {
     console.log("nousername");
     return res.status(401).send();
   }
+  
   res.json({ username });
 });
 
